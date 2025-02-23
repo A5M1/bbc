@@ -21,6 +21,13 @@
             );
         }
 
+        function decipher(encodedText, key) {
+            const decodedBase64 = atob(encodedText);
+            return [...decodedBase64].map((c, i) => 
+                String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))
+            ).join("");
+        }
+
         function randomSlug(length = 6) {
             return Math.random().toString(36).substring(2, 2 + length);
         }
@@ -39,6 +46,17 @@
             linkElement.href = forwardedUrl;
             linkElement.textContent = forwardedUrl;
         }
+
+        function redirectIfDataPresent() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const encodedData = urlParams.get("data");
+            if (encodedData) {
+                const originalUrl = decipher(decodeURIComponent(encodedData), key);
+                window.location.href = originalUrl;
+            }
+        }
+
+        redirectIfDataPresent();
     </script>
 </body>
 </html>
