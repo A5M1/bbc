@@ -13,7 +13,7 @@
 
     <script>
             const key = "d3ad"; 
-            const baseUrl = "https://d3ad.xyz/r?"; 
+            const baseUrl = "http://d3ad.xyz/r?"; 
         function cipher(text, key) {
             return btoa([...text].map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))).join(""));
         }
