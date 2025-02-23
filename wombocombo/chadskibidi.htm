@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>skib ai</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        #chatbox {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin: 0 auto;
+            height: 400px;
+            overflow-y: auto;
+        }
+        .user-message, .ai-message {
+            margin-bottom: 15px;
+        }
+        .user-message {
+            color: #76ff03;
+            font-weight: bold;
+        }
+        .ai-message {
+            color: #03a9f4;
+            font-style: italic;
+        }
+        input[type="text"] {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #333;
+            color: #e0e0e0;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #03a9f4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0288d1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat-Skibiddy</h1>
+    <div id="chatbox"></div>
+    <input type="text" id="userInput" placeholder="Say something..." />
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+const baseResponses=["Brr Skibidi dop dop dop yes yes, Skibidi taupled dip deip!","Skibidi dop dop dop, Skibidi taupled dip deip, yes yes!","Brrr, Skibidi taupled dip deip, skibidi dop dop dop, yes yes!","Skibidi taupled dip deip, Brr Skibidi dop dop dop yes yes!","Brr Skibidi dop dop dop yes yes, Taupled dip deip, skibidi!","Skibidi taupled dip deip, dop dop dop yes yes, skibidi Brr!","Skibidi taupled dip deip, Skibidi dop dop dop yes yes, brr!"];function createMarkovChain(e){let d={};return e.forEach((e=>{let t=e.split(" ");for(let e=0;e<t.length-1;e++){let i=t[e],o=t[e+1];d[i]||(d[i]=[]),d[i].push(o)}})),d}function generateMarkovResponse(e){let d="Skibidi",t=d,i=d,o=Math.floor(5*Math.random())+5;for(let d=0;d<o;d++){let d=e[i];if(!d)break;let o=d[Math.floor(Math.random()*d.length)];t+=" "+o,i=o}return t}function generateMarkovParagraph(){let e="",d=Math.floor(3*Math.random())+1;for(let t=0;t<d;t++)e+=generateMarkovResponse(markovChain)+"\n\n";return e}const markovChain=createMarkovChain(baseResponses);function sendMessage(){const e=document.getElementById("userInput").value;if(!e)return;const d=document.getElementById("chatbox"),t=document.createElement("div");t.className="user-message",t.textContent=`You: ${e}`,d.appendChild(t);const i=document.createElement("div");i.className="ai-message",i.textContent=`AI: ${generateMarkovParagraph()}`,d.appendChild(i),document.getElementById("userInput").value="",d.scrollTop=d.scrollHeight}document.getElementById("userInput").addEventListener("keypress",(function(e){"Enter"===e.key&&sendMessage()}));</script>
+</body>
+</html>
