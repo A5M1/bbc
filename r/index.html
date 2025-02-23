@@ -12,10 +12,13 @@
     <p>Forwarded URL: <a id="forwardedUrl" href="#" target="_blank"></a></p>
 
     <script>
-            const key = "d3ad"; 
-            const baseUrl = "http://d3ad.xyz/r?"; 
+        const key = "d3ad";
+        const baseUrl = "http://d3ad.xyz/r?";
+
         function cipher(text, key) {
-            return btoa([...text].map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))).join(""));
+            return btoa([...text].map((c, i) => 
+                String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))).join("")
+            );
         }
 
         function randomSlug(length = 6) {
@@ -28,12 +31,10 @@
                 alert("Invalid YouTube URL");
                 return;
             }
-
             const encryptedUrl = cipher(ytUrl, key);
             const slug = randomSlug();
             const encodedData = encodeURIComponent(encryptedUrl);
-            const forwardedUrl = `${baseUrl}${slug}?data=${encodedData}`;
-
+            const forwardedUrl = `${baseUrl}${slug}&data=${encodedData}`;
             const linkElement = document.getElementById("forwardedUrl");
             linkElement.href = forwardedUrl;
             linkElement.textContent = forwardedUrl;
