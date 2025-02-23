@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube URL Forwarder Generator</title>
+</head>
+<body>
+    <h1>YouTube URL Forwarder</h1>
+    <input type="text" id="youtubeUrl" placeholder="Enter YouTube URL">
+    <button onclick="generateLink()">Generate</button>
+    <p>Forwarded URL: <a id="forwardedUrl" href="#" target="_blank"></a></p>
+
+    <script>
+            const key = "d3ad"; 
+            const baseUrl = "https://d3ad.xyz/r/"; 
+        function cipher(text, key) {
+            return btoa([...text].map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))).join(""));
+        }
+
+        function randomSlug(length = 6) {
+            return Math.random().toString(36).substring(2, 2 + length);
+        }
+
+        function generateLink() {
+            const ytUrl = document.getElementById("youtubeUrl").value;
+            if (!ytUrl.includes("youtube.com") && !ytUrl.includes("youtu.be")) {
+                alert("Invalid YouTube URL");
+                return;
+            }
+
+            const encryptedUrl = cipher(ytUrl, key);
+            const slug = randomSlug();
+            const encodedData = encodeURIComponent(encryptedUrl);
+            const forwardedUrl = `${baseUrl}${slug}?data=${encodedData}`;
+
+            const linkElement = document.getElementById("forwardedUrl");
+            linkElement.href = forwardedUrl;
+            linkElement.textContent = forwardedUrl;
+        }
+    </script>
+</body>
+</html>
