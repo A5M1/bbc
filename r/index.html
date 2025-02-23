@@ -3,60 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube URL Forwarder Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>YouTube URL Forwarder</h1>
-    <input type="text" id="youtubeUrl" placeholder="Enter YouTube URL">
-    <button onclick="generateLink()">Generate</button>
-    <p>Forwarded URL: <a id="forwardedUrl" href="#" target="_blank"></a></p>
-
+<body class="bg-gray-900 text-gray-200 flex items-center justify-center h-screen">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96 text-center">
+        <h1 class="text-xl font-semibold mb-4">Universal URL Forwarder</h1>
+        <input type="text" id="inputUrl" placeholder="Enter any URL"
+            class="w-full p-2 mb-4 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-gray-400">
+        <button onclick="generateLink()"
+            class="w-full p-2 bg-blue-600 hover:bg-blue-500 rounded text-white font-medium">Generate</button>
+        <p class="mt-4 text-gray-400">Forwarded URL: <a id="forwardedUrl" href="#" target="_blank" class="text-blue-400 break-all"></a></p>
+    </div>
     <script>
-        const key = "d3ad";
-        const baseUrl = "http://d3ad.xyz/r?";
-
-        function cipher(text, key) {
-            return btoa([...text].map((c, i) => 
-                String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))).join("")
-            );
-        }
-
-        function decipher(encodedText, key) {
-            const decodedBase64 = atob(encodedText);
-            return [...decodedBase64].map((c, i) => 
-                String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))
-            ).join("");
-        }
-
-        function randomSlug(length = 6) {
-            return Math.random().toString(36).substring(2, 2 + length);
-        }
-
-        function generateLink() {
-            const ytUrl = document.getElementById("youtubeUrl").value;
-            if (!ytUrl.includes("youtube.com") && !ytUrl.includes("youtu.be")) {
-                alert("Invalid YouTube URL");
-                return;
-            }
-            const encryptedUrl = cipher(ytUrl, key);
-            const slug = randomSlug();
-            const encodedData = encodeURIComponent(encryptedUrl);
-            const forwardedUrl = `${baseUrl}${slug}&data=${encodedData}`;
-            const linkElement = document.getElementById("forwardedUrl");
-            linkElement.href = forwardedUrl;
-            linkElement.textContent = forwardedUrl;
-        }
-
-        function redirectIfDataPresent() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const encodedData = urlParams.get("data");
-            if (encodedData) {
-                const originalUrl = decipher(decodeURIComponent(encodedData), key);
-                window.location.href = originalUrl;
-            }
-        }
-
-        redirectIfDataPresent();
+const key="d3ad",baseUrl="http://d3ad.xyz/r?";function cipher(e,t){return btoa([...e].map(((e,n)=>String.fromCharCode(e.charCodeAt(0)^t.charCodeAt(n%t.length)))).join(""))}function decipher(e,t){return[...atob(e)].map(((e,n)=>String.fromCharCode(e.charCodeAt(0)^t.charCodeAt(n%t.length)))).join("")}function randomSlug(e=6){return Math.random().toString(36).substring(2,2+e)}function generateLink(){const e=document.getElementById("inputUrl").value;try{new URL(e)}catch(e){return void alert("Invalid URL")}const t=cipher(e,key),n=randomSlug(),r=encodeURIComponent(t),o=`${baseUrl}${n}&data=${r}`,a=document.getElementById("forwardedUrl");a.href=o,a.textContent=o}function redirectIfDataPresent(){const e=new URLSearchParams(window.location.search).get("data");if(e){const t=decipher(decodeURIComponent(e),key);window.location.href=t}}redirectIfDataPresent();
     </script>
 </body>
 </html>
